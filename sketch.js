@@ -1,35 +1,29 @@
-//name spacing  
-const Engine=Matter.Engine;
-const World=Matter.World;
-const Bodies=Matter.Bodies;
-
-var engine,world;
-var object;
-
+//we will create our own algorithm for istouching that is if one rectangle is touchiing 
+//the other rectangle then both the rectangle color should change
+//algorithm is step by step process
+//create one fixedrect and movingrect
 function setup() {
   createCanvas(800,400);
-  engine=Engine.create();
-  world=engine.world;
-  
-  var options={
-    isStatic:true
-  }
-
-  object=Bodies.rectangle(200,100,50,50,options)
-  World.add(world,object)
-  
-  console.log(object);
-  console.log(object.position.x);
-  console.log(object.position.y);
-
-
- }
+  fixedRect=createSprite(400, 200,50, 100);   //frw/2=80/2=40
+  fixedRect.shapeColor="red";
+  movingRect=createSprite(600, 200, 100, 50);   //movingrectwidth/2=80/2=40
+  movingRect.shapeColor="red";                 //fixedrectwidth/2+movingrectwidth/2=40+40=80
+}
 
 function draw() {
-  background(0);  
-  Engine.update(engine);
-  rectMode("center")
-  rect(400, 200, 50, 50)
-  rect(object.position.x,object.position.y,100,100);
- 
+  background("yellow"); 
+  console.log(movingRect.x-fixedRect.x);
+  movingRect.x=mouseX;  //5-3=2      3-5=-2
+  movingRect.y=mouseY;
+  if(movingRect.x-fixedRect.x<fixedRect.width/2+movingRect.width/2&&
+     fixedRect.x-movingRect.x<fixedRect.width/2+movingRect.width/2)
+  {
+    fixedRect.shapeColor="green";
+    movingRect.shapeColor="green"; 
+  }
+  else{
+    fixedRect.shapeColor="red";
+    movingRect.shapeColor="red";
+  }
+  drawSprites();
 }
