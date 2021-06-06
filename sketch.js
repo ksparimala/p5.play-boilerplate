@@ -1,45 +1,26 @@
-//functions and arguments
-//user defined functions-DRY
-var car,wall,fixedRect,movingRect;
+//add the matter.js  like these shortnames is called as name spacing 
+const Engine=Matter.Engine;     //world will by the engine
+const World=Matter.World;     //add the bird to world
+const Bodies=Matter.Bodies;   //bird
+
+var object;
 function setup() {
   createCanvas(800,400);
-  fixedRect=createSprite(400, 200,50, 100);   //frw/2=80/2=40
-  fixedRect.shapeColor="red";
-  movingRect=createSprite(600, 200, 100, 50);   //movingrectwidth/2=80/2=40
-  movingRect.shapeColor="red";                 //fixedrectwidth/2+movingrectwidth/2=40+40=80
+  engine=Engine.create()   //creating engine
+  world=engine.world;     //adding world to engine
+  
+  var options={
+    restitution:0.3,
+  }
+  object=Bodies.rectangle(250,250,50,50,options);   //object is the body
+  World.add(world,object);    //adding the object body to the world
 
-  car=createSprite(200,100,100,50)
-  car.shapeColor="pink";
-  car.velocityX=2;
-
-  wall=createSprite(600,100,50,100)
-  wall.shapeColor="pink";
-
+  console.log(object);
 }
 
 function draw() {
-  background("yellow"); 
-  movingRect.x=mouseX;  
-  movingRect.y=mouseY;
-  //calling the function-friend1
-  if(isTouching(movingRect,fixedRect))
-  {
-    fixedRect.shapeColor="green";
-   movingRect.shapeColor="green";
-  }
-  else{
-    fixedRect.shapeColor="red";
-    movingRect.shapeColor="red";
-  }
-  //friend-2
-  if(isTouching(car,wall))
-  {
-   car.velocityX=0;
-  }
-  else
-  {
-    car.shapeColor="pink";
-    wall.shapeColor="pink";
-  }
-  drawSprites();
+  background(255,255,255);  
+
+  Engine.update(engine);
+  rect(object.position.x,object.position.y,50,50)
 }
